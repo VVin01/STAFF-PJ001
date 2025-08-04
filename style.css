@@ -8,12 +8,15 @@
 
 /* Body Background & Text */
 body {
+  font-family: 'Segoe UI', sans-serif;
   background-image: url('your-logo.png'); /* logo path */
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 200px 200px; /* logo အရွယ်အစား */
   background-attachment: fixed;
   background-color: #F5F7FA; /* fallback color */
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
@@ -51,13 +54,6 @@ a:hover {
 /* Accent */
 .accent {
   color: var(--color-accent);
-}
-/* Base Styles */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f6f8fa;
-  margin: 0;
-  padding: 0;
 }
 
 .title {
