@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luxury Staff Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A77EFF;
+      --secondary: #E5D1FF;
+      --bg: #F7F3FF;
+      --text: #2D2D2D;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 0;
+      margin: 0;
+    }
+
+    header {
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-left: 10px;
+    }
+
+    .login-box {
+      max-width: 400px;
+      background: var(--white);
+      margin: 100px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .login-box button {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .dashboard {
+      display: none;
+      padding: 20px;
+    }
+
+    .staff-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .staff-card {
+      background: var(--white);
+      border: 2px solid var(--secondary);
+      border-radius: 12px;
+      margin: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      width: 260px;
+      transition: 0.3s;
+    }
+
+    .staff-card:hover {
+      transform: scale(1.03);
+    }
+
+    .staff-card img {
+      border-radius: 50%;
+      height: 80px;
+      width: 80px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-content img {
+      width: 100px; height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    @media (min-width: 768px) {
+      .staff-tree {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="display:flex; align-items:center;">
+      <img src="https://i.ibb.co/G4QSW2Rv/IMG-0549.jpg" alt="Logo">
+      <h1>Company Dashboard</h1>
+    </div>
+  </header>
+
+  <div class="login-box" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="dashboard" id="dashboard">
+    <h2>Staff Hierarchy</h2>
+    <div class="staff-tree" id="staffTree">
+      <!-- Staff members will be rendered here -->
+    </div>
+  </div>
+
+  <div class="modal" id="staffModal">
+    <div class="modal-content" id="modalContent">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <img id="modalPhoto" src="" alt="Staff Photo" />
+      <h3 id="modalName"></h3>
+      <p><strong>ID:</strong> <span id="modalID"></span></p>
+      <p><strong>Position:</strong> <span id="modalPosition"></span></p>
+      <p><strong>Branch:</strong> <span id="modalBranch"></span></p>
+      <p><strong>Contact:</strong> <span id="modalContact"></span></p>
+      <p><strong>Join Date:</strong> <span id="modalJoin"></span></p>
+      <p><strong>Duty:</strong> <span id="modalDuty"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const dummyStaff = [
+      {
+        name: "Daw Nandar",
+        id: "CEO-001",
+        position: "Chief Executive Officer",
+        branch: "Head Office",
+        contact: "09-123456789",
+        photo: "https://randomuser.me/api/portraits/women/44.jpg",
+        join: "2015-01-10",
+        duty: "Overall company leadership and strategic planning."
+      },
+      {
+        name: "Ko Zaw Min",
+        id: "MGR-002",
+        position: "Branch Manager",
+        branch: "Yangon",
+        contact: "09-987654321",
+        photo: "https://randomuser.me/api/portraits/men/35.jpg",
+        join: "2018-05-20",
+        duty: "Managing Yangon operations and team leadership."
+      }
+    ];
+
+    const loginBox = document.getElementById('loginBox');
+    const dashboard = document.getElementById('dashboard');
+    const staffTree = document.getElementById('staffTree');
+
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      if (u === "admin" && p === "1234") {
+        loginBox.style.display = 'none';
+        dashboard.style.display = 'block';
+        loadStaff();
+      } else {
+        alert("Invalid login. Hint: admin / 1234");
+      }
+    }
+
+    function loadStaff() {
+      staffTree.innerHTML = "";
+      dummyStaff.forEach((s, i) => {
+        const card = document.createElement('div');
+        card.className = 'staff-card';
+        card.innerHTML = `
+          <img src="${s.photo}" />
+          <h4>${s.name}</h4>
+          <p>${s.position}</p>
+        `;
+        card.onclick = () => openModal(i);
+        staffTree.appendChild(card);
+      });
+    }
+
+    function openModal(index) {
+      const s = dummyStaff[index];
+      document.getElementById('modalPhoto').src = s.photo;
+      document.getElementById('modalName').textContent = s.name;
+      document.getElementById('modalID').textContent = s.id;
+      document.getElementById('modalPosition').textContent = s.position;
+      document.getElementById('modalBranch').textContent = s.branch;
+      document.getElementById('modalContact').textContent = s.contact;
+      document.getElementById('modalJoin').textContent = s.join;
+      document.getElementById('modalDuty').textContent = s.duty;
+      document.getElementById('staffModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('staffModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
