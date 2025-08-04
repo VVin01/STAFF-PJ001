@@ -8,9 +8,12 @@
 
 /* Body Background & Text */
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('your-logo.png'); /* logo path */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 200px 200px; /* logo အရွယ်အစား */
+  background-attachment: fixed;
+  background-color: #F5F7FA; /* fallback color */
 }
 
 /* Header */
