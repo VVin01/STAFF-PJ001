@@ -1,3 +1,54 @@
+:root {
+  --color-primary: #4A90E2;
+  --color-secondary: #FF6F61;
+  --color-accent: #9B59B6;
+  --color-bg: #F5F7FA;
+  --color-text: #333333;
+}
+
+/* Body Background & Text */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+header {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem 2rem;
+}
+
+/* Buttons */
+button {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-secondary);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+/* Accent */
+.accent {
+  color: var(--color-accent);
+}
 /* Base Styles */
 body {
   font-family: 'Segoe UI', sans-serif;
