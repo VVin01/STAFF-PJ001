@@ -1,0 +1,145 @@
+/* Base Styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f8fa;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 28px;
+  color: #2c3e50;
+}
+
+/* Tree Layout */
+.tree-container {
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.tree-container ul {
+  padding-top: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.tree-container ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ccc;
+}
+.tree-container li {
+  list-style: none;
+  margin: 0 20px;
+  text-align: center;
+  position: relative;
+}
+.tree-container li::before, .tree-container li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 20px;
+  background: #ccc;
+}
+.tree-container li::before { left: -20px; }
+.tree-container li::after { right: -20px; }
+.tree-container li:only-child::before,
+.tree-container li:only-child::after {
+  display: none;
+}
+.tree-container li:first-child::before { display: none; }
+.tree-container li:last-child::after { display: none; }
+
+/* Node Card */
+.node {
+  display: inline-block;
+  padding: 10px;
+  background: #ffffff;
+  border: 2px solid #3498db;
+  border-radius: 12px;
+  min-width: 120px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.node:hover {
+  background: #ecf7ff;
+}
+.node img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.node span {
+  display: block;
+  font-weight: bold;
+  margin-top: 6px;
+}
+.node small {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+}
+.modal input, .modal button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  font-size: 16px;
+}
+
+/* Floating Add Button */
+.add-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 30px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+.add-btn:hover {
+  background: #2980b9;
+}
