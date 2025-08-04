@@ -148,7 +148,6 @@
     <img src="https://i.ibb.co/G4QSW2Rv/IMG-0549.jpg" alt="Logo" />
     <h1>Staff Hierarchy</h1>
   </header>
-
   <div class="login-container">
     <div class="login-box" id="loginBox">
       <h2>Admin Login</h2>
@@ -157,46 +156,63 @@
       <button onclick="login()">Login</button>
     </div>
   </div>
-
   <div class="hierarchy-container" id="hierarchy" style="display:none;">
+<div style="text-align:right; margin-bottom: 10px;">
+  <button onclick="toggleForm()" style="padding:8px 16px;background:#2ecc71;color:white;border:none;border-radius:5px;">+ Add Staff</button>
+</div>
+<div id="addStaffForm" style="display:none;background:#fff;padding:15px;border-radius:8px;box-shadow:0 0 5px rgba(0,0,0,0.2);margin-bottom:20px;">
+  <h3>Add New Staff</h3>
+  <input type="text" id="newName" placeholder="Name" /><br/><br/>
+  <input type="text" id="newID" placeholder="ID" /><br/><br/>
+  <input type="text" id="newPosition" placeholder="Position" /><br/><br/>
+  <input type="text" id="newBranch" placeholder="Branch" /><br/><br/>
+  <input type="text" id="newContact" placeholder="Contact" /><br/><br/>
+  <input type="date" id="newJoinDate" /><br/><br/>
+  <input type="text" id="newPhoto" placeholder="Photo URL" /><br/><br/>
+  <textarea id="newDuty" placeholder="Duties" rows="3" style="width:100%;"></textarea><br/><br/>
+  <select id="newParent">
+    <option value="">-- Select Supervisor --</option>
+  </select><br/><br/>
+  <button onclick="createStaff()" style="padding:8px 16px;background:#3498db;color:white;border:none;border-radius:5px;">Create</button>
+</div>
     <div class="tree" id="staffTree"></div>
   </div>
-
   <div class="modal" id="profileModal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close" onclick="closeModal()">×</span>
       <div class="profile-details" id="profileDetails"></div>
     </div>
-  </div><script>
+  </div>
+  <script>
   const staffData = [
     {
       id: "001",
-      name: "U Aung Min",
+      name: "Thae Theint War",
       position: "CEO",
       branch: "Head Office",
-      contact: "09-123456789",
-      joinDate: "2020-01-15",
+      contact: "+9595410717",
+      joinDate: null,
       photo: "https://i.ibb.co/G4QSW2Rv/IMG-0549.jpg",
       parentId: null,
       duty: "Oversees all company operations."
     },
     {
       id: "002",
-      name: "Daw Mya Hnin",
-      position: "Manager",
+      name: "Naing Nanda",
+      position: "Opreation Manager",
       branch: "Yangon Branch",
-      contact: "09-987654321",
-      joinDate: "2021-03-22",
+      contact: "+959881130141",
+      joinDate: "2025-07-01",
       photo: "https://i.ibb.co/G4QSW2Rv/IMG-0549.jpg",
       parentId: "001",
-      duty: "Manages Yangon operations and staff."
+      duty: "Manages operations and staff."
     },
     {
       id: "003",
-      name: "Ko Kyaw Zin",
-      position: "IT Officer",
-      branch: "Yangon Branch",
-      contact: "09-22223333",
+      name: "Tin Lin Aung",
+      position: "IT HOD",
+      branch: "Head Office",
+      contact: "+959786335921",
       joinDate: "2022-06-10",
       photo: "https://i.ibb.co/G4QSW2Rv/IMG-0549.jpg",
       parentId: "002",
@@ -257,6 +273,71 @@
   function closeModal() {
     document.getElementById("profileModal").style.display = "none";
   }
+    <script>
+  function toggleForm() {function toggleForm() {
+  const form = document.getElementById("addStaffForm");
+  if (form.style.display === "none") {
+    populateSupervisorDropdown();
+    form.style.display = "block";
+  } else {
+    form.style.display = "none";
+  }
+  } }
+  function createStaff() {
+    const name = document.getElementById("newName").value;
+    const id = document.getElementById("newID").value;
+    const position = document.getElementById("newPosition").value;
+    const branch = document.getElementById("newBranch").value;
+    const contact = document.getElementById("newContact").value;
+    const joinDate = document.getElementById("newJoinDate").value;
+    const photo = document.getElementById("newPhoto").value || "https://via.placeholder.com/100";
+    const duty = document.getElementById("newDuty").value;
+    const parentID = document.getElementById("newParent").value;
+    if (!name || !id) {
+      alert("Name and ID are required.");
+      return;
+    }
+    const newMember = {
+      name, id, position, branch, contact, joinDate, photo, duty,
+      children: []
+    };
+    if (parentID) {
+      const parent = staffData.find(p => p.id === parentID);
+      if (parent) {
+        parent.children = parent.children || [];
+        parent.children.push(newMember);
+      } else {
+        staffData.push(newMember);
+      }
+    } else {
+      staffData.push(newMember);
+    }
+    renderTree();
+    toggleForm();
+    clearForm();
+  }
+  function clearForm() {
+    document.getElementById("newName").value = "";
+    document.getElementById("newID").value = "";
+    document.getElementById("newPosition").value = "";
+    document.getElementById("newBranch").value = "";
+    document.getElementById("newContact").value = "";
+    document.getElementById("newJoinDate").value = "";
+    document.getElementById("newPhoto").value = "";
+    document.getElementById("newDuty").value = "";
+    document.getElementById("newParent").value = "";
+  }
+    function populateSupervisorDropdown() {
+  const parentSelect = document.getElementById("newParent");
+  parentSelect.innerHTML = '<option value="">-- Select Supervisor --</option>';
+  staffData.forEach(member => {
+    const option = document.createElement("option");
+    option.value = member.id;
+    option.textContent = `${member.name} (${member.position})`;
+    parentSelect.appendChild(option);
+  });
+}
+</script>
 </script>
 </body>
 </html>
